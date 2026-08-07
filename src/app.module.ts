@@ -22,8 +22,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         username: config.get('DB_USERNAME'), // Nome do usuário
         password: config.get('DB_PASS'), // Senha do usuário
         database: config.get('DB_DATABASE'), // Nome da conexão
-        entities: [__dirname + '/**/*.entity{.ts,.js}'],
-        synchronize: true,
+        entities: [__dirname + '/**/*.entity{.ts,.js}'], // Faz o Nest buscar as entities automaticamente
+        synchronize: true, // Cria a estrutura no banco (caso não exista)
       }),
     }),
   ],
