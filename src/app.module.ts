@@ -20,7 +20,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         host: config.get('DB_HOST'), // Host do banco
         port: Number(config.get('DB_PORT')), // Porta do banco
         username: config.get('DB_USERNAME'), // Nome do usuário
-        password: config.get('DB_PASS'), // Senha do usuário
+        password: config.get('DB_PASSWORD'), // Senha do usuário
         database: config.get('DB_DATABASE'), // Nome da conexão
         entities: [__dirname + '/**/*.entity{.ts,.js}'], // Faz o Nest buscar as entities automaticamente
         synchronize: true, // Cria a estrutura no banco (caso não exista)
