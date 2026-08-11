@@ -9,10 +9,12 @@ import {
   HttpCode,
   HttpStatus,
   ParseIntPipe,
+  UseGuards,
 } from '@nestjs/common';
 import { EquipamentosService } from './equipamentos.service';
 import { UpdateEquipamentoDto } from './dto/update-equipamento.dto';
 import { CreateEquipamentoDto } from './dto/create-equipamento.dto';
+import { JwtAuthGuards } from 'src/auth/guards/auth.guard';
 
 @Controller('equipamentos')
 export class EquipamentosController {
@@ -31,11 +33,13 @@ export class EquipamentosController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED) // Força o retorno status = 201
+  @UseGuards(JwtAuthGuards)
   create(@Body() dto: CreateEquipamentoDto) {
     return this.equipamentosService.create(dto);
   }
 
   @Put(':id')
+  @UseGuards(JwtAuthGuards)
   update(
     @Param('id', ParseIntPipe) id: number,
     @Body() dto: UpdateEquipamentoDto,
@@ -44,6 +48,7 @@ export class EquipamentosController {
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuards)
   async remove(@Param('id', ParseIntPipe) id: number) {
     await this.equipamentosService.remove(id);
     return { success: { text: 'Equipamento removido!' } };
