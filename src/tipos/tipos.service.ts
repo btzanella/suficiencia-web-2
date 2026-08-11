@@ -2,6 +2,8 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Tipo } from './entities/tipo.entity';
 import { Repository } from 'typeorm';
+import { CreateTipoDto } from './dto/create-tipo.dto';
+import { UpdateTipoDto } from './dto/update-tipo.dto';
 
 @Injectable()
 export class TiposService {
@@ -28,13 +30,13 @@ export class TiposService {
   }
 
   // Cria um novo tipo
-  create(dto: { nome: string }): Promise<Tipo> {
+  create(dto: CreateTipoDto): Promise<Tipo> {
     const novoTipo = this.tipoRepository.create(dto);
     return this.tipoRepository.save(novoTipo);
   }
 
   // Atualiza o tipo global
-  async update(id: number, dto: Partial<{ nome: string }>): Promise<Tipo> {
+  async update(id: number, dto: UpdateTipoDto): Promise<Tipo> {
     const tipo = await this.findOne(id);
 
     // Sobrescreve o que vem da DTO

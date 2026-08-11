@@ -11,6 +11,8 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 import { TiposService } from './tipos.service';
+import { UpdateTipoDto } from './dto/update-tipo.dto';
+import { CreateTipoDto } from './dto/create-tipo.dto';
 @Controller('tipos')
 export class TiposController {
   constructor(private readonly tiposService: TiposService) {}
@@ -27,15 +29,12 @@ export class TiposController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED) // Força o retorno status = 201
-  create(@Body() dto: { nome: string }) {
+  create(@Body() dto: CreateTipoDto) {
     return this.tiposService.create(dto);
   }
 
   @Put(':id')
-  update(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() dto: Partial<{ nome: string }>,
-  ) {
+  update(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateTipoDto) {
     return this.tiposService.update(id, dto);
   }
 

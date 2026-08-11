@@ -11,6 +11,8 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 import { EquipamentosService } from './equipamentos.service';
+import { UpdateEquipamentoDto } from './dto/update-equipamento.dto';
+import { CreateEquipamentoDto } from './dto/create-equipamento.dto';
 
 @Controller('equipamentos')
 export class EquipamentosController {
@@ -29,14 +31,14 @@ export class EquipamentosController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED) // Força o retorno status = 201
-  create(@Body() dto: { nome: string; tipo: { id: number } }) {
+  create(@Body() dto: CreateEquipamentoDto) {
     return this.equipamentosService.create(dto);
   }
 
   @Put(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() dto: Partial<{ nome: string; tipo: { id: number } }>,
+    @Body() dto: UpdateEquipamentoDto,
   ) {
     return this.equipamentosService.update(id, dto);
   }
@@ -44,6 +46,6 @@ export class EquipamentosController {
   @Delete(':id')
   async remove(@Param('id', ParseIntPipe) id: number) {
     await this.equipamentosService.remove(id);
-    return { success: { text: 'equipamento removido' } };
+    return { success: { text: 'Equipamento removido!' } };
   }
 }

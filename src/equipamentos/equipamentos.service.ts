@@ -4,6 +4,8 @@ import { Repository } from 'typeorm';
 import { Equipamento } from './entities/equipamento.entity';
 import { TiposService } from 'src/tipos/tipos.service';
 import { NotFoundException } from '@nestjs/common';
+import { UpdateEquipamentoDto } from './dto/update-equipamento.dto';
+import { CreateEquipamentoDto } from './dto/create-equipamento.dto';
 
 @Injectable()
 export class EquipamentosService {
@@ -31,10 +33,7 @@ export class EquipamentosService {
   }
 
   // Cria um novo equipamento atrelando o tipo
-  async create(dto: {
-    nome: string;
-    tipo: { id: number };
-  }): Promise<Equipamento> {
+  async create(dto: CreateEquipamentoDto): Promise<Equipamento> {
     const tipo = await this.tipoService.findOne(dto.tipo.id);
 
     const novoEquipamento = this.equipamentoRepository.create({
@@ -46,10 +45,7 @@ export class EquipamentosService {
   }
 
   // Atualiza um equipamento e/ou seu tipo
-  async update(
-    id: number,
-    dto: Partial<{ nome: string; tipo: { id: number } }>,
-  ): Promise<Equipamento> {
+  async update(id: number, dto: UpdateEquipamentoDto): Promise<Equipamento> {
     const equipamento = await this.findOne(id);
 
     if (dto.nome !== undefined) {
