@@ -15,7 +15,10 @@ import { TiposService } from './tipos.service';
 import { UpdateTipoDto } from './dto/update-tipo.dto';
 import { CreateTipoDto } from './dto/create-tipo.dto';
 import { JwtAuthGuards } from 'src/auth/guards/auth.guard';
+import { ApiBearerAuth } from '@nestjs/swagger';
 @Controller('tipos')
+@UseGuards(JwtAuthGuards)
+@ApiBearerAuth('acess-token')
 export class TiposController {
   constructor(private readonly tiposService: TiposService) {}
 
@@ -31,19 +34,16 @@ export class TiposController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED) // Força o retorno status = 201
-  @UseGuards(JwtAuthGuards)
   create(@Body() dto: CreateTipoDto) {
     return this.tiposService.create(dto);
   }
 
   @Put(':id')
-  @UseGuards(JwtAuthGuards)
   update(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateTipoDto) {
     return this.tiposService.update(id, dto);
   }
 
   @Delete(':id')
-  @UseGuards(JwtAuthGuards)
   async remove(@Param('id', ParseIntPipe) id: number) {
     await this.tiposService.remove(id);
     return { sucess: { text: 'Tipo removido!' } };
